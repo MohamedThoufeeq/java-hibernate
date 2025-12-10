@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class PatientController implements CommandLineRunner {
@@ -43,7 +45,7 @@ public class PatientController implements CommandLineRunner {
         System.out.println(patient.toString());*/
 
         // Many to One
-        Doctor doctor1 = Doctor.builder().name("Alex").build();
+        /*Doctor doctor1 = Doctor.builder().name("Alex").build();
         Doctor doctor2 = Doctor.builder().name("Kalam").build();
         Doctor doctor3 = Doctor.builder().name("Tamilan").build();
         dRepo.save(doctor1);
@@ -74,6 +76,50 @@ public class PatientController implements CommandLineRunner {
                 .medicalRecord(mr3)
                 .doctor(doctor3)
                 .build();
+        Patient save3 = prepo.save(p3);
+        System.out.println("Saved "+save3.toString());*/
+
+        // One to Many
+
+        // Create Patients with their medical records and save it to db
+        MedicalRecord mr1 = mrRepo.save(MedicalRecord.builder().diagnosis("High Cold").symptoms("very low temp").build());
+        Patient p1 = Patient.builder()
+                .name("kohn").age(30).email("kohn@gmail.com").mobileNumber(1234567890)
+                .medicalRecord(mr1)
+                .build();
+        p1 = prepo.save(p1);
+
+        MedicalRecord mr2 = mrRepo.save(MedicalRecord.builder().diagnosis("Light Fever").symptoms("very Low temp").build());
+        Patient p2 = Patient.builder()
+                .name("bon").age(20).email("bon@gmail.com").mobileNumber(1234567890)
+                .medicalRecord(mr2)
+                .build();
+        p2 = prepo.save(p2);
+
+        MedicalRecord mr3 = mrRepo.save(MedicalRecord.builder().diagnosis("Cough").symptoms("throat pain").build());
+        Patient p3 = Patient.builder()
+                .name("bane").age(29).email("bane@gmail.com").mobileNumber(1234567890)
+                .medicalRecord(mr3)
+                .build();
+        p3 = prepo.save(p3);
+
+        //Create doctors with their patients
+        Doctor doctor1 = dRepo.save(Doctor.builder().name("Alex").patients(List.of(p1, p2)).build());
+        Doctor doctor2 = dRepo.save(Doctor.builder().name("Kalam").patients(List.of(p3)).build());
+        Doctor doctor3 = dRepo.save(Doctor.builder().name("Tamil").patients(List.of()).build());
+
+        // Assign Doctor in Patient
+        p1.setDoctor(doctor1);
+        p2.setDoctor(doctor1);
+        p3.setDoctor(doctor2);
+
+        //SAVE operations
+        Patient save1 = prepo.save(p1);
+        System.out.println("Saved "+save1.toString());
+
+        Patient save2 = prepo.save(p2);
+        System.out.println("Saved "+save2.toString());
+
         Patient save3 = prepo.save(p3);
         System.out.println("Saved "+save3.toString());
 

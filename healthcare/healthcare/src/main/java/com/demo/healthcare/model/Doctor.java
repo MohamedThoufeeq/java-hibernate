@@ -1,10 +1,9 @@
 package com.demo.healthcare.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -18,4 +17,11 @@ public class Doctor {
     private Long id;
 
     private String name;
+
+    /*
+    Doctor can have many patients
+     */
+    @OneToMany
+    @ToString.Exclude
+    private List<Patient> patients;
 }

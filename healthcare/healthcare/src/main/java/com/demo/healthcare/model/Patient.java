@@ -1,10 +1,7 @@
 package com.demo.healthcare.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @AllArgsConstructor
@@ -37,5 +34,6 @@ public class Patient {
      */
     @ManyToOne
     @JoinColumn(name = "doctor_id")
+    @ToString.Exclude
     private Doctor doctor;
 }
