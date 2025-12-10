@@ -22,8 +22,11 @@ public class Patient {
     private int age;
     private String address;
     private String email;
-    @Column(name = "mobilenumber")
+    @Column(name = "mobile_number")
     private long mobileNumber;
 
+    @OneToOne
+    @JoinColumn(name = "medical_record_id")
+    private MedicalRecord medicalRecord;
 
 }
