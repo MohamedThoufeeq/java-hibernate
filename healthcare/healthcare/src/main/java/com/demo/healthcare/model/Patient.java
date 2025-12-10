@@ -16,6 +16,7 @@ public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "patient_id")
     private Long id;
 
     private String name;
@@ -29,4 +30,12 @@ public class Patient {
     @JoinColumn(name = "medical_record_id")
     private MedicalRecord medicalRecord;
 
+    /*
+    Many to One means Doctors can be many, but the patient can have only one doctor
+    The first "Many" indicates the field it's indicated with, which is Doctor.
+    Doctor can have many number of patients. That's why Many is indicated for Doctor in this Entity.
+     */
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
 }
