@@ -23,7 +23,7 @@ public class Patient {
     @Column(name = "mobile_number")
     private long mobileNumber;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "medical_record_id")
     private MedicalRecord medicalRecord;
 
@@ -32,8 +32,8 @@ public class Patient {
     The first "Many" indicates the field it's indicated with, which is Doctor.
     Doctor can have many number of patients. That's why Many is indicated for Doctor in this Entity.
      */
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "doctor_id")
-    @ToString.Exclude
+    @ToString.Exclude @EqualsAndHashCode.Exclude
     private Doctor doctor;
 }
