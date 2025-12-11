@@ -1,11 +1,8 @@
 package com.demo.healthcare.controller;
 
-import com.demo.healthcare.model.Doctor;
-import com.demo.healthcare.model.MedicalRecord;
-import com.demo.healthcare.model.Patient;
-import com.demo.healthcare.repo.DoctorRepository;
-import com.demo.healthcare.repo.MedicalRecordRepository;
-import com.demo.healthcare.repo.PatientRepository;
+import com.demo.healthcare.model.Medicine;
+import com.demo.healthcare.model.Prescription;
+import com.demo.healthcare.repo.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -19,6 +16,8 @@ public class PatientController implements CommandLineRunner {
     private final PatientRepository prepo;
     private final MedicalRecordRepository mrRepo;
     private final DoctorRepository dRepo;
+    private final MedicineRepository medRepo;
+    private final PrescriptionRepository presRepo;
 
     @Override
     public void run(String... args) throws Exception {
@@ -168,6 +167,7 @@ public class PatientController implements CommandLineRunner {
 
         System.out.println("All data saved efficiently!");
          */
+        /*
         // CASCADE PERSIST
         MedicalRecord mr1 = MedicalRecord.builder().diagnosis("Cold").symptoms("Sneezing").build();
         MedicalRecord mr2 = MedicalRecord.builder().diagnosis("Fever").symptoms("Hot").build();
@@ -196,5 +196,21 @@ public class PatientController implements CommandLineRunner {
         // in order to arrest it, mark the Doctor and MedicalRecord as Cascade in patient.
         prepo.saveAll(List.of(p1, p2, p3));
         System.out.println("All data saved efficiently!");
+        */
+        // CASCADE REMOVE -- skipping
+
+        //Many to many
+        Medicine m1 = Medicine.builder().name("paracetomol").build();
+        Medicine m2 = Medicine.builder().name("amoxicilin").build();
+        Medicine m3 = Medicine.builder().name("pentab").build();
+
+        medRepo.saveAll(List.of(m1,m2,m3));
+
+        Prescription p1 = Prescription.builder().medicines(List.of(m1,m3)).build();
+        Prescription p2 = Prescription.builder().medicines(List.of(m2,m3)).build();
+
+        presRepo.saveAll(List.of(p1,p2));
+
+
     }
 }
