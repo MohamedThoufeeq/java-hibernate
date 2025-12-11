@@ -21,7 +21,7 @@ public class Doctor {
     /*
     Doctor can have many patients
      */
-    @OneToMany
+    @OneToMany(mappedBy = "doctor")
     @ToString.Exclude
     private List<Patient> patients;
 }

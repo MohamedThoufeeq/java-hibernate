@@ -80,7 +80,7 @@ public class PatientController implements CommandLineRunner {
         System.out.println("Saved "+save3.toString());*/
 
         // One to Many
-
+        /* UnOptimized Version
         // Create Patients with their medical records and save it to db
         MedicalRecord mr1 = mrRepo.save(MedicalRecord.builder().diagnosis("High Cold").symptoms("very low temp").build());
         Patient p1 = Patient.builder()
@@ -122,6 +122,49 @@ public class PatientController implements CommandLineRunner {
 
         Patient save3 = prepo.save(p3);
         System.out.println("Saved "+save3.toString());
+        */
+        //Optimized version
+        // 1. Create and Save INDEPENDENT entities first (Doctors & Medical Records)
+        MedicalRecord mr1 = mrRepo.save(MedicalRecord.builder().diagnosis("Cold").symptoms("Sneezing").build());
+        MedicalRecord mr2 = mrRepo.save(MedicalRecord.builder().diagnosis("Fever").symptoms("Hot").build());
+        MedicalRecord mr3 = mrRepo.save(MedicalRecord.builder().diagnosis("Cough").symptoms("Pain").build());
 
+        Doctor doctor1 = dRepo.save(Doctor.builder().name("Alex").build());
+        Doctor doctor2 = dRepo.save(Doctor.builder().name("Kalam").build());
+
+        // 2. Create Patients with ALL connections set immediately
+        // Notice we set .doctor() inside the builder!
+        Patient p1 = Patient.builder()
+                .name("Kohn")
+                .age(30)
+                .email("kohn@gmail.com")
+                .mobileNumber(1234567890L)
+                .medicalRecord(mr1) // Link MR
+                .doctor(doctor1)    // Link Doctor
+                .build();
+
+        Patient p2 = Patient.builder()
+                .name("Bon")
+                .age(20)
+                .email("bon@gmail.com")
+                .mobileNumber(1234567890L)
+                .medicalRecord(mr2)
+                .doctor(doctor1)    // Same Doctor
+                .build();
+
+        Patient p3 = Patient.builder()
+                .name("Bane")
+                .age(29)
+                .email("bane@gmail.com")
+                .mobileNumber(1234567890L)
+                .medicalRecord(mr3)
+                .doctor(doctor2)    // Different Doctor
+                .build();
+
+        // 3. Save Patients ONCE
+        // This generates simple INSERTs with all Foreign Keys already filled.
+        prepo.saveAll(List.of(p1, p2, p3));
+
+        System.out.println("All data saved efficiently!");
     }
 }
