@@ -1,7 +1,9 @@
 package com.demo.healthcare.controller;
 
-import com.demo.healthcare.model.Medicine;
-import com.demo.healthcare.model.Prescription;
+import com.demo.healthcare.model.Address;
+import com.demo.healthcare.model.Doctor;
+import com.demo.healthcare.model.GENDER;
+import com.demo.healthcare.model.Patient;
 import com.demo.healthcare.repo.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -199,6 +201,7 @@ public class PatientController implements CommandLineRunner {
         */
         // CASCADE REMOVE -- skipping
 
+        /*
         //Many to many
         Medicine m1 = Medicine.builder().name("paracetomol").build();
         Medicine m2 = Medicine.builder().name("amoxicilin").build();
@@ -210,6 +213,41 @@ public class PatientController implements CommandLineRunner {
         Prescription p2 = Prescription.builder().medicines(List.of(m2,m3)).build();
 
         presRepo.saveAll(List.of(p1,p2));
+
+        //Embedded
+        Doctor d1 = Doctor.builder().name("Doc").address(Address.builder().street("abc").city("NY").state("NewYork").country("US").zipcode(60000).build()).build();
+        dRepo.save(d1);
+        */
+
+        //Inheritance
+        Doctor alicDoc = new Doctor();
+        alicDoc.setName("Alice");
+        alicDoc.setAddress(new Address("123", "NYC", "NY", "US", 12345));
+        alicDoc.setAge(40);
+        alicDoc.setEmail("aliceDoctor@hospital.com");
+        alicDoc.setMobileNumber(123456789);
+        alicDoc.setGender(GENDER.MALE);
+        alicDoc.setDesignation("Surgeon");
+
+        Doctor stephenDoctor = new Doctor();
+        stephenDoctor.setName("Stephen");
+        stephenDoctor.setAddress(new Address("300", "Dubai City", "Dubai", "UAE", 12345));
+        stephenDoctor.setAge(50);
+        stephenDoctor.setEmail("stephene@hospital.com");
+        stephenDoctor.setGender(GENDER.MALE);
+        stephenDoctor.setDesignation("ENT");
+
+        dRepo.saveAll(List.of(alicDoc, stephenDoctor));
+
+        Patient patient = new Patient();
+        patient.setAge(18); patient.setName("thoufeeq");
+        patient.setEmail("thoufeeq@patient.com"); patient.setMobileNumber(12345678);
+        patient.setGender(GENDER.MALE);
+        patient.setAddress(new Address("20", "Abudhabi City", "Dubai", "UAE", 76578));
+        patient = prepo.save(patient);
+        patient.setDoctor(dRepo.findById(1l).get());
+        patient = prepo.save(patient);
+
 
 
     }
