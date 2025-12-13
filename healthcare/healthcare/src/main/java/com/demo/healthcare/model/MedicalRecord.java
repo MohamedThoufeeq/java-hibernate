@@ -3,6 +3,8 @@ package com.demo.healthcare.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,7 +14,7 @@ import lombok.*;
 public class MedicalRecord {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String diagnosis;
@@ -21,4 +23,7 @@ public class MedicalRecord {
     @OneToOne(mappedBy = "medicalRecord")
     @ToString.Exclude
     private Patient patient;
+
+    @OneToMany
+    private List<Prescription> prescriptions;
 }

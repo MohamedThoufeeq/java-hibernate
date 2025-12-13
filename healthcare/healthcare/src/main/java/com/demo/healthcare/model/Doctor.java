@@ -8,22 +8,20 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
-@Data
-//@Builder
-//@Table(name = "doctor")
 public class Doctor extends Person {
 
+    public Doctor(String designation) {this.designation=designation;}
     /*
     Doctor can have many patients
      */
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @ToString.Exclude @EqualsAndHashCode.Exclude // this is to tell lombok to exclude from the ToString, Equals, Hash method generations internally in order to stop the infinite loop
+    @Getter @Setter
     private List<Patient> patients;
 
+    @Getter @Setter
     private String designation;
 
     @CreationTimestamp

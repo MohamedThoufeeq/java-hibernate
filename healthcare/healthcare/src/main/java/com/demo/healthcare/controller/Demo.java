@@ -1,27 +1,20 @@
 package com.demo.healthcare.controller;
 
-import com.demo.healthcare.model.Address;
-import com.demo.healthcare.model.Doctor;
-import com.demo.healthcare.model.GENDER;
-import com.demo.healthcare.model.Patient;
-import com.demo.healthcare.repo.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class PatientController implements CommandLineRunner {
+//public class Demo implements CommandLineRunner {
+public class Demo {
 
-    private final PatientRepository prepo;
-    private final MedicalRecordRepository mrRepo;
-    private final DoctorRepository dRepo;
-    private final MedicineRepository medRepo;
-    private final PrescriptionRepository presRepo;
+//    private final PatientRepository prepo;
+//    private final MedicalRecordRepository mrRepo;
+//    private final DoctorRepository dRepo;
+//    private final MedicineRepository medRepo;
+//    private final PrescriptionRepository presRepo;
 
-    @Override
+//    @Override
     public void run(String... args) throws Exception {
         //One to One relationship
         /*MedicalRecord mr1 = mrRepo.save(MedicalRecord.builder().diagnosis("High Cold").symptoms("very low temp").build());
@@ -220,7 +213,7 @@ public class PatientController implements CommandLineRunner {
         */
 
         //Inheritance
-        Doctor alicDoc = new Doctor();
+        /*Doctor alicDoc = new Doctor();
         alicDoc.setName("Alice");
         alicDoc.setAddress(new Address("123", "NYC", "NY", "US", 12345));
         alicDoc.setAge(40);
@@ -245,10 +238,8 @@ public class PatientController implements CommandLineRunner {
         patient.setGender(GENDER.MALE);
         patient.setAddress(new Address("20", "Abudhabi City", "Dubai", "UAE", 76578));
         patient = prepo.save(patient);
-        patient.setDoctor(dRepo.findById(1l).get());
-        patient = prepo.save(patient);
-
-
+        patient.setDoctor(dRepo.findById(1L).get());
+        patient = prepo.save(patient);*/
 
     }
 }

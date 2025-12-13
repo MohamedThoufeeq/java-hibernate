@@ -1,22 +1,26 @@
 package com.demo.healthcare.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
-@Data
-//@Builder
-//@Table(name = "patient")
 public class Patient extends Person {
+
+    public Patient(MedicalRecord medicalRecord, Doctor doctor) {
+        this.medicalRecord = medicalRecord;
+        this.doctor = doctor;
+    }
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "medical_record_id")
+    @Getter @Setter
     private MedicalRecord medicalRecord;
 
     /*
@@ -26,17 +30,13 @@ public class Patient extends Person {
      */
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "doctor_id")
-    @ToString.Exclude @EqualsAndHashCode.Exclude
+    @Getter @Setter
     private Doctor doctor;
 
     @CreationTimestamp
-    @Getter(AccessLevel.PRIVATE)
-    @Setter(AccessLevel.PRIVATE)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Getter(AccessLevel.PRIVATE)
-    @Setter(AccessLevel.PRIVATE)
     private LocalDateTime updatedAt;
 
     //will execute only when INSERT query is executed
